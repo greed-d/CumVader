@@ -38,7 +38,7 @@ for i in range(num_of_enemies):
     enemyImg.append(pygame.image.load("./images/ass1.png"))
     enemyX.append(randint(0, 729))
     enemyY.append(randint(50, 150))
-    enemyX_change.append(1)
+    enemyX_change.append(3)
     enemyY_change.append(15)
 
 # Show Bullet
@@ -49,7 +49,7 @@ bulletImg = pygame.transform.scale(bulletImg, (32, 32))
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 5
+bulletY_change = 5.75
 bullet_state = "ready"
 
 # Score
@@ -71,8 +71,8 @@ def showScore(x, y):
 def gameOver():
     overText = overFont.render("YOU WASTED PRECIOUS CUM FUCKER", True, (255, 255, 255))
     screen.blit(overText, (130, 250))
-    time.sleep(1)
     print("this is a test")
+    time.sleep(1)
 
 
 def player(x, y):
@@ -142,19 +142,25 @@ def mainLoop():
         elif playerX >= 729:
             playerX = 729
 
-        if bulletY <= 0:
-            gameOver()
-            for j in range(num_of_enemies):
-                enemyY[j] = 2000
+        # if enemyY[i] > 180:
+        #     gameOver()
+        #     for j in range(num_of_enemies):
+        #         enemyY[j] = 2000
 
         for i in range(num_of_enemies):
 
+            if enemyY[i] > 190:
+                for j in range(num_of_enemies):
+                    enemyY[j] = 2000
+                gameOver()
+                break
+
             enemyX[i] += enemyX_change[i]
             if enemyX[i] <= 0:
-                enemyX_change[i] = 1
+                enemyX_change[i] = 2
                 enemyY[i] += enemyY_change[i]
             elif enemyX[i] >= 729:
-                enemyX_change[i] = -1
+                enemyX_change[i] = -2
                 enemyY[i] += enemyY_change[i]
 
             # Collision
